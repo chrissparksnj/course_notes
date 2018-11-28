@@ -1,0 +1,650 @@
+Locate
+- fastest way to find files is 'locate' command
+- searches all files from '/'
+- locate looks at premade database
+- (/var/lib/mlocate/mlocate.db)
+# updatedb
+- configure the directories by editing the '/etc/updatedb.conf' file.
+
+Find
+- 'find' command. slower, but more versatile
+- looks recursively through specific directory
+# find /etc -name inittab
+- supports wildcard chars, but must be enclosed in quotes
+# find /etc -name "host*:
+
+Which 
+- Only searches directories that are listed in PATH
+# echo $PATH
+
+
+
+Linking Files
+- Filesystem structure: superblock, inode table, datablock
+- Superblock: information llike number of inodes, and storage size of datablocks
+- Inode table: contains several inodes. Each inode describes one file or directory on system
+	      - also contains size, datablock location, datamod, permissions
+- Datablock: the actual data
+* when file deleted, inode link removed. data block still there
+- Hardlinked files share same inode
+# ln file1 file2 --> hard link
+
+File and Directory Ownership
+# whoami <-- current username
+# groups <-- view current group memberships
+# chgrp <-- change group of file or directory
+# chown -R user1.root Desktop <-- changes user1 owner and root group
+
+Permissions
+
+# chmod u+w,g+r-w,o+r-x file1 <-- write for user, add read and remove write for group, 
+			      <-- add read take away execute for other
+# chmod u=rw,g=r,o=r file2 <-- explicitly set permissions
+# chmod a+x file1 <-- all categories get execute
+# chmod +x <-- adds execute permissions to all cetegories
+------------------------------------------------------------
+Devices
+- devices live in /dev directory
+- b (block device) or c (character device)
+- listing contains major and minor number
+	- major number points to the device driver for the device in the linux kernel
+	- minor number points to specific advice
+# mknod /dev/fd0 b 2 0 <-- makes device file of block type, with major number of 2 and minor 0
+# cat /proc/devices <-- shows devices in use, and their major numbers
+# mkfs -t ext2 /dev/fd0 <-- makes file system of -t(type) on first floppy drive
+# mkfs /dev/fd0 <-- EXT2 is default file system
+# mount <-- shows currently mounted items in system
+# fuser -u /media/floppy <-- shows if someone is currenty using directory for mount point
+# mount -t ext2 /dev/fd0 /media/floppy <-- mounts first floppy device to /media/floppy
+
+FSTAB
+- Two purposes
+	- used to mount devices at boot time
+	- consulted when user doesn't specify enough arguments with `mount` command
+- Fields in fstab consist of
+	- device to mount <-- can be path of dev file, or boot loader label
+	- mount point
+	- type <-- can be specific like ext2 or automatically detected
+	- mount options <-- ex: noauto = dont mount at boot time
+	- dump# <-- 1 = filesystem should be backed up | 0 = no backup
+	- fsck <-- used for fs checks. 1 is given priority over 2, and 0 means no check
+- echo "/dev/fd0 /mnt/floppy auto noauto 0 0" >> /etc/fstab
+	- sets rule to mount fd0 to /mnt/floppy
+	# mount /dev/fd0 <-- no extra info needed, because its listed in /etc/fstab
+	# mount /media/floppy <-- mount point can also be specified if rule set in fstab
+
+- CD and DVD drives can have many different names
+	- Linux automatically creates sym. link to first DVD drive
+	- ls -l /dev/cdrom
+		# /dev/cdrom -> sr0
+- CD's use iso9660 filesystem and are only allowed to be read, not written to by Linux
+	- you must mount as -r(read only)
+	# mount -r -t iso 9660 /dev/cdrom /media/cd
+
+
+- Mounting ISOs
+# sudo mount -o loop -r -t iso9660 kali-linux-light-2018.4-amd64.iso /mnt 
+
+- Making a ISO file out of directory
+# sudo mkisofs -RJ -o newimage.iso /Directory <-- RJ means Rock Ridge and Joilet
+
+
+HARD DISCS
+PATA, SATA, and SCSI
+
+- PATA 
+	- one of four configurations
+	- Primary master (/dev/hda)
+	- Primary slave (/dev/hdb)
+	- Secondary Mater (/dev/hdc)
+	- Secondary Slave (/dev/hdd)
+- SATA *used for faster file transfer and can connect up to 4 together*
+	- /dev/sda
+	- /dev/sdb
+	- /dev/sdc
+	- /dev/sdd
+	- ...
+*SSD's are SATA, and are treated as such by LINUX
+
+*Linux requires two partitions at minimum: a partition that is mounted to the root directory
+(the root partition) and a partition used to hold virtual memory (the swap partition).*
+
+Partion definitions stored in Master Boot Record (MBR)
+Large hard disks use GUID Partition Tbale (GPT) instead
+
+***********************************************************
+Ex: format USB
+# fdisk -l <-- /dev/sdb (SATA)
+# p <-- prints partition on usb
+# d <-- clears partition
+# n <-- new partition
+    	# e <-- extended partition 
+    	# 4 <-- uses 4th partition
+    	# default (enter) sectors
+	# +1GB
+	>> Created a new partition 4 of type 'Extended' and of size 1 GiB.
+# n <-- logical option comes up now
+	# l <-- type: logical
+	# +1GB
+	>> Created a new partition 5 of type 'Linux' and of size 954 MiB.
+	
+# n
+	# l
+	# 500kb
+
+Change Type to swap
+	# t
+	# 6  <-- logical partition number
+	# L  <-- lists all types
+	# 82 <-- (swap type)
+Save changes
+	# w <-- writes changes to disk
+
+# mkfs -t ext4 /dev/sdb5 <-- makes ext4 filesystem on partition
+# mount -t ext4 /dev/sdb5 /data <-- mounts file system to /data directory
+
+Make sure its mounted at boot
+# vim /etc/fstab
+# /dev/sdb5     /data     ext4    defaults     00
+
+Making Swap
+# mkswap /dev/sdb6
+# swapon /dev/sdb6
+# /dev/sdb6 swap swap defaults 0 0 <--add to /etc/fstab to activate as swap on boot
+
+# gdisk -l /dev/sda1 <-- tells you if you have MBR or GPT
+		     <-- if no warning, you have GPT
+
+
+** you must use gdisk on GUID **
+***********************************************************
+LOGICAL VOLUME MANAGER
+
+- LVM consists of different components
+	-> Physical Volumes: Unused partions on hard disks
+	-> Volume Groups: Contain one or more Physical Volumes
+	-> Logical Volumes: Usable volumes created by LVM
+
+# pvcreate /dev/sdc <-- allows lvm to use partition
+# pvdisplay <-- shows details about each PV
+
+
+* PE (Physical Extent): Block size must chosed before creating Volume Group
+
+# vgcreate vg00 /dev/sdc/ /dev/sdb <-- creates volume group named vg00 out of partition
+# vgcreate vg00 -s 		   <-- changes PE size, used for the size of written blocks
+# vgdisplay 			   <-- details about volume groups
+
+# lvcreate -L 15GB -n data vg00    <-- creates logicalvolume 15GB named 'data' on volumegroup vg00
+# lvcreate -L 10GB -n extra vg00   <-- creates logicalvolume 10GB named 'extras' on volumegroup vg00
+# lvdisplay 	                   <-- shows Logical Volume display
+
+Useful commands:
+# lvscan, pvscan, and vgscan
+# vgextend <-- increases volume group size
+# lvextend <-- increases logical volume size
+
+Removing Logical Volumes
+# lvremove /dev/vg00/extras <-- remove logical volume
+# lvremove /dev/vg00/	    <-- remove logical volume
+# vgremove /vg00	    <-- removes volume group named vg00
+# pvremove /dev/sdc	    <-- removes phyiscal volume
+
+
+Adding size to Logical Volume
+* Make new physical volume
+# pvcreate /dev/sdc                       <-- creates new physical volume on /dev/sdc
+
+# vgextend group_name /dev/sdc            <-- adds new physical device to volume group names 'group_name'
+# lvcreate -L 10GB -n new_vol_name VG_X   <-- creates new logical volume of 10gb, named 'new_vol_name' on volume group named 'VG_X'
+------------------------------------------------------------
+USB DEVICES & FIREWIRES
+
+* Linux treats USB's as SCSI Hard Disk
+* Automatically mounts to /run/media/username/
+
+------------------------------------------------------------
+MONITORING FILE SYSTEMS
+# df    <-- monitor freespace on mounted items
+# df -h <-- human readable output of df
+* mount devices you want to see freespace on
+# du /home    <-- shows which directory is taking up most space
+# du -h /home <-- same as DU but human formated
+# dumpe2fs -h /dev/sdb <-- shows total and free indodes (only works on ext2, ext3, and ext4
+
+# fsck <-- checks for bad blocks
+------------------------------------------------------------
+REDIRECTION
+STDIN  = 0
+STDOUT = 1
+STDERR = 2
+
+# ls /etc/hosts /etc/h             <-- shows standard output and standard error
+# ls /etc/hosts /etc/h 1> good.txt <-- shows error to stdout and redirect stdoutput to goodfile
+# ls /etc/hosts /etc/h 2> bad.txt  <-- redirect stderr to bad.txt, and displays stdout
+
+# ls /etc/hosts /etc/h 1> good.txt 2>bad.txt <-- redirects both stdout, and stderr to seperate files
+# ls /etc/hosts /etc/h >good.txt 2>&1        <-- redirects stdout and stderr to same file
+# ls /etc/hosts /etc/h 2>good.txt >&2        <-- redirect stderr and stdout to same file
+
+# cat < /etc/issue              <-- redirects standard input to cat
+# tr r R </etc/issue >newissue  <-- redirects standard input, then redirect stdout to 'newfile'
+
+PIPING
+# cat prologue | tr a A | sort | pr -d | less                          <-- prints prologue, replaces all A's with LC a's, alphabetical sort, prints double spaced
+* tee - allows you to print to standard output, and also print to file
+# cat prologue | tr a A | sort | pr -d | tee newfile | less            <-- same as command above, but makes a file called 'newfile'
+# sort < newissue > newissue                                           <-- BASH clears out newissue, then sorts new issue, which shows empty
+# tr a A <prologue | sort | nl > newprologue                           <--redirects standard input to tr, sorts it, numbers it, outputs to file call newprologue
+
+SED
+* usage pattern: sed s/search/replace
+# cat prologue | sed s/the/THE/     <-- replaces first instances of 'the' with 'THE' in each line
+# cat prologue | sed s/the/THE/g    <-- replaces all instances of 'the' with 'THE' in each line
+# cat prologue | sed 5,8s/the/THE/g <-- replaces 'the' with 'THE' only on lines 5 and 8
+# cat prologue | sed /the/d         <-- deletes all lines that contain the word 'the'
+
+AWK
+# cat prologue | awk '/the/ {print $1, $4}'         <-- shows first and fourth word of lines containing 'the'
+# tail /etc/passwd | awk -F : '/bob/ {print $1 $4}' <-- uses ":" field delimeter, prints 1st and 4th word of lines containing 'bob'
+
+SHELL VARIABLES
+# set | less     <-- shows list of current environment variables
+# echo $PS1      <-- echoing out a environment variable
+# PS1="whatever" <-- sets environment variable
+
+# MYVAR="This is a sample var" <-- sets custom environment variable; only for current shell
+# export MYVAR="this is a sample var" <-- sets env. variable for whole system
+
+ALIAS
+# alias mf="mount -t ext2 /dev/sdb /mnt/droplet" <-- creates alias for mount command
+# alias dw="date;who" 				 <-- creates alias that runs two commands
+
+* /etc/bashrc sets variables and aliases for all users
+* ~/.bashrc sets variables for users
+
+BASH SCRIPTS
+# bash script.sh			<-- runs bash script
+~ #/bin/bash 				<-- called a "hashpling"
+~ echo -e "Today's date is: \c"
+~ date
+~ echo -e "\nThe people logged in are: "
+~ who
+~ echo -e "\nThe contents if the / directory are :"
+~ ls -F
+
+* \c cancels new lines
+* -e allows chars to be escaped, otherwise literals will be printed out
+
+~ #/bin/bash
+~ # Reading STDIN
+~ echo -e "What is your name: \c"
+~ read USERNAME
+~ echo "Hello $USERNAME"
+
+~ #!/bin/bash
+~ echo -e "Today's date is: \c"
+~ date
+~ echo -e "\nThe people logged in are: "
+~ who
+~ echo -e "\nWould you like to see contents of \ ? (y/n)--> \c"
+~ read ANSWER
+~
+~ if [ $ANSWER = 'y' ]
+~ then
+~        echo "\nThe contents of the / directory are: "
+~        ls -F /
+~ fi
+
+
+# if [ $ANSWER = "y" -o $ANSWER = "Y" ] <-- OR operator
+
+CASE CONSTRUCT
+* the * character matches any instances not in the case statement
+
+~ #!/bin/bash
+~ echo -e "What would you like to see?
+~ Todays date (d)
+~ Currently logged in users (u)
+~ The contents of the / directory (r)
+~
+~ Enter your choice (d/u/r) --> \c"
+~ read ANSWER
+~ case $ANSWER in
+~ d | D ) echo -e "\nToday's date is: \c"
+~          date
+~  	   ;;
+~ u | U ) echo -e "\nThe people logged into the systems incude: "
+~          who
+~          ;;
+~ r | R ) echo -e "\nThe contents of the / directory are: "
+~         ls -F /
+~         ;;
+~ *) echo -e "Invalid choice! \a"
+~         ;;
+~ esac
+
+AND OR Operators
+~ #!/bin/bash
+~ mkdir /etc/sample && cp /etc/hosts /etc/sample    <-- AND
+~ cp /etc/hosts /etc/sample || echo "Could not copy /etc/hosts" <-- OR
+
+FOR LOOP
+~ #!/bin/bash
+~ echo -e "What directory do you want to list? --> \c"
+~ read DIR
+~ for NAME in $DIR/*
+~ do 
+~ echo $NAME
+~ done
+
+WHILE LOOP
+~ #!/bin/bash
+~ i="0"
+~ while [ $i -lt 4 ]
+~ do
+~ echo "HELLO"
+~ i=$[$i+1]
+~ done
+------------------------------------------------------------
+BOOTING
+
+* Active partition: Holds bootloader or pointer to HD that has bootloader
+* Boot loader executes linux kernel from partition that contains it
+* Init Daemon called. First daemon that starts all other daemons
+* Common Bootloaders: LILO, GRUB, GRUB2
+# cat /etc/lilo.conf <-- lilo boot configuration
+	prompt
+	timeout=50
+	default=linux                      <-- if user makes no choice in 5 seconds, auto-boots to linux
+	boot=/dev/hda		               <-- Specifies where LILO should be installed.
+	map=/boot/map			           <-- Specifies the file that contains the exact location of the Linux kernel on the hard disk.
+	install=/boot/boot.b	           <-- Specifies the file that contains the physical layout of the disk drive.
+	lba32
+	image=/boot/vmlinuz-2.6.5-1.358    <-- kernel
+	label=linux
+	initrd=/boot/initrd-2.6.5-1.358.img<-- used to load modules into memory needed for the Linux kernel at boot time.
+	read-only		                   <-- Guards against fsck errors
+	append="rhgb quiet root=/dev/hda1" <-- Red Hat Graphical Boot
+					                   <-- dont show kernel messages
+				                       <-- mount root on /dev/hda1
+
+# lilo 				                   <-- tell system to use new lilo.conf file
+# lilo -U				               <-- uninstall LILO
+
+
+GRUB
+
+* grub.cfg read by stage 2 bootloader
+* Grub refers to hard disk partitions as such: (hd<drive#>,<cl:partition#>)
+
+~ boot=/dev/sda
+~ default=0							  <-- first partition
+~ timeout=5						        
+~ splashimage=(hd0,0)/boot/grub/splash.xpm.gz                     <-- graphical bootscreen
+~ hiddenmenu							  <-- dont show additional info
+~ title Fedora (2.6.33.3-85.fc13.i686.PAE)
+~ root (hd0,0)						          <-- OS Kernel located on /root hd0p0
+~ kernel /boot/vmlinuz-2.6.33.3-85.fc13.i686.PAE ro root=/dev/sda1<-- kernel name, read only, mount root on sda1
+~ rhgb quiet
+~ initrd /boot/initramfs-2.6.33.3-85.fc13.i686.PAE.img            <-- load modules into kernel
+
+* 'nosmp' to kernel line disables symmetric multi-processing
+* 'mem=4096M' to kernel line forces kernel to see 4096 M of RAM%
+
+With Bootscreen Loaded:
+-e <-- edit grub.cfg
+-a <-- append line to kernel line
+-c <-- get grub prompt
+
+# grub-install <-- reinstalls grub configuration if file gets messed up
+# cat /etc/default/grub 
+~ GRUB_TIMEOUT=5 <-- time bootscreen apears
+~ GRUB_DISTRIBUTOR="$(sed ’s, release .*$,,g’ /etc/system-release)"
+~ GRUB_DEFAULT=saved  <-- default OS
+~ GRUB_DISABLE_SUBMENU=true
+~ GRUB_TERMINAL_OUTPUT="console"
+~ GRUB_CMDLINE_LINUX="quiet,splash" <-- options for GRUB
+~ rhgb quiet"
+~ GRUB_DISABLE_RECOVERY="true"
+
+# grub2-mkconfig <-- command to make new grub file configurable
+# grub2-install  <-- regenerate grub config
+
+STARTUP
+[SYSv - Unix]
+[Traditional]
+* init daemon starts all other daemons
+# runlevel <-- shows current run level
+# init 1   <-- changes run level
+
+* init daemon runs at level specified in /etc/inittab
+* init daemon finds default run level, and starts and kills daemons in rc folders
+* uses S or K files to start or kill daemos
+# ls /etc/rc5.d  <-- daemons for run level 5
+
+* following S or K is a number, for order to be executed in
+# S01atd, S02cron <-- runs atd daemon before cron daemon
+
+# ls /etc/rc1.d   <-- single user mode runtim configs. most are K (kill scripts)
+
+* runtime config directories full of symbolic links to /etc/init.d directory
+
+[Upstart]
+* relies on code inside daemons to compare with current runlevel
+# cat /etc/init/cron.conf
+~ start on runlevel [2345]
+~ stop on runlevel [!2345]
+
+
+# chkconfig --list postfix <-- checks runtime config on SysV init builds
+# chkconfig --level 35 postfix on <-- sets to initialized for levels 3 and 5 on SysV
+
+[Ubuntu Server]
+# update-rc.d -f postfix remove <-- remove sym links before making new one
+# update-rc.d postfix defaults  <-- sets postfix to initialize in default levels
+# update-rc.d postfix start 20 2 5 . stop 20 0 1 3 4 6. <-- runs on runlevels 2 5
+
+[Systemd]
+* daemons called service units
+* runlevels called target units
+# poweroff.target   <-- SysV runlevel 0
+# rescue.target     <-- SysV runlevel 1 (Single User Mode)
+# multi-user.target <-- Sysv runlevel 2, 3,4
+# graphical.target  <-- Sysv runlevel 5
+# reboot.target     <-- Sysv runlevel 6
+
+# ln -s /lib/systemd/system/runlevel3.target /etc/systemd/system/default.target --> links runlevel3 to default target 
+* works because default runlevel is actually graphical.target
+* most rc scripts used my systemd are in: /usr/lib/systemd/system
+* ensure cron service is initialized in multiboot
+# ln -s /usr/lib/systemd/system/crond.service /etc/systemd/system/multi.user.target.wants.crond.service
+^^^ makes cron daemon start in multi-user.level
+
+# systemctl                           <-- shows currently running daemons
+# systemctl | grep service            <-- shows services only
+# systemctl --all                     <-- shows every service running or not
+# systemctl status cron.service       <-- shows status and info of cron service
+# systemctl enable cron               <-- enables cron to run in defualt mode (graphical.target)
+# systemctl disable crom              <-- removes item from running in default mode (graphical target)
+# systemctl isolate multi-user.target <-- switches to multi-user mode
+# systemctl isolate runlevel3.target  <-- same command as above
+# systemctl isoloate graphical.target <-- switches to graphical mode
+# systemctl isolate runlevel5.target  <-- same as above
+------------------------------------------------------------
+XWINDOWS
+
+* x windows is main component of linux GUI
+* provides ability to draw graphics in terminals
+* xclients instruct xwindows how to draw
+* also called x-server
+* xfree86 open source version of X Windows
+* window managers affect look and feel of X windows
+
+# cat /etc/xorg.conf      <-- xorg config file
+# cat /etc/X11/XF86Config <-- xfree86 config file
+# system-config-keyboard  <-- configures keyboard
+# xvidtune 		  <-- updates refresh rate
+------------------------------------------------------------
+PROCESSES
+
+* user process: process started by user
+* processes must have parent process id (PPID)
+* init daemon first process: PID 1, PPID 0
+
+# ps    <-- shows commands in current shell
+# ps -f <-- shows full version of commands
+# ps -e <-- shows all procceses and daemons
+# ps -l <-- long listing of procceses
+* kthread starts most proccesses, so lots of daemons have 2 as Parent 
+* ? means process that doesnt run in terminal
+* ps -l S columns shows process state: eg (Sleep, Run, Trace, Zombie)
+* ZOMBIE - process finished, but parent hasnt released PID
+
+PRI (priorities)
+* 0 high priority
+* 217 low priority
+* NICE level affects priority
+* -20 high priority
+* +19 low priotiry
+
+# ps -l
+- F (4) means root ran process
+- ADDR address of process in memory
+- WCHAN what process os waiting for
+- SZ size of process in Kilobytes
+
+# ps ax <-- a shows all processes across all terms, x shows processes that dont run in term
+* STAT is process status 
+  (S) is for Sleep
+  (W) is for no contents in memory
+  (<) means high priority
+  (N) indicates low priority
+
+# ls /proc <-- each dir is named for the PID of the process
+# pstree   <-- displays lineage of a process by tracing its PPID's
+# top -h   <-- shows help commands for top program
+
+# kill -l           <-- shows different kill commands
+# kill -3 1199      <-- sends kill command with SIGQUIT version
+# killall -3 sample <-- kills processes by name
+
+* Binary programs 'fork' a new shell, then execute program in new shell using exec function
+* new fork calls exit on itself, returns control to bash shell
+# jobs       <-- shows background proccesses
+# kill -2 %1 <-- background proccess must be specified by percenage
+# kill -2 %  <-- kills most recent background job
+# cntrl-z    <-- suspends program
+# bg %1      <-- puts program in background
+# fg %1      <-- brings program to foreground
+
+
+PRIORITIES
+* Kernel sends data from many different proccess to CPU to seem simultaneous
+* Time Slice refers to time a CPU uses to deal with proccesses datas
+* Nice level refers to how much time a process can use the CPU for
+* PRI 0 pushes said proccess to front of line for time slice
+* PRI 127 least likely to be able to use timeslice
+* all users can increase their nice values of proccesses causing there processes to run slower
+* only root user can decrease nice values to process causing there procceses to run faster
+
+# nice -n 19 ps -l        <-- starts ps command with lowest priority
+# nice -n -20 ps -l       <-- sets to highest priroity
+# renice +15 1990 2180    <-- sets nice levels to already running process. this lowers priority
+# renice +15 -u mary bob  <-- sets nice levels for all proccesses owned by mary and bob
+# renice +15 -g sys       <-- sets nice levels for all proccesses owned by group
+* if -n is omitted, level is set to 10
+* note the priority change in PRI column. 
+
+SCHEDULING TASKS
+* cron daemon
+* atd daemon
+
+AT
+# at 10:15pm July 15    <-- starts at prompt
+> date > /root/atfile
+> who >> /root/atfile
+> ctrl+d
+
+# at -l                           <-- lists current at jobs
+# at -c 1                         <-- shows details about at jobs
+# at -d 1                         <-- deletes at jobs
+# at 10:15pm July 16 -f script.sh <-- runs bash script with at command
+
+* /etc/at.allow <-- lists users who can use at command
+* /etc/at.deny  <-- deny users from using at command
+
+
+CRON
+# 20,40  17  *  * 1-5      <-- cron table for 5:20 and 5:40 Monday to Friday
+# /var/spool/cron          <-- Fedora location of *user* cron tables
+# /var/spool/cron/crontabs <-- Ubuntu location of *user* cron tables
+# /etc/crontab		   <-- system cron tables
+# /etc/cron.d              <-- system cron tables
+
+# cat /etc/cron.allow      <-- only users in this file are allowed to use cron daemon
+# crontab -e               <-- edit user cron table
+# 30 4 * * 5 /bin/command  <-- runs every Friday at 4:30 am
+# 0 14 1 * * /bin/command2 <-- runs at 2:00 pm on the first of every month
+* crontab -e file saves to /var/spool/cron/username
+
+# crontab -l              <-- lists cron tables
+# crontab -r              <-- removes cron tables
+# sudo crontab -e -u mary <-- edits another user's cron rules
+# sudo crontab -l -u mary <-- lists users cron tables
+# sudo crontab -r -u mary <-- removes users cron tables
+
+# cat /etc/crontab                <-- system cron tables
+# 30 23 * * 5 apache /bin/cleanup <-- runs every friday at 11:30 pm by apache user 
+
+* placing shell scripts in following directories run without making cron table
+# /etc/cron.hourly  <-- runs everything in dir 1 minut past the hour
+# /etc/cron.daily
+# /etc/cron.weekly
+# /etc/cron.monthly
+-----------------------------------------------------------
+PRINTING
+
+* CUPS (Common UNIX Printing System)
+# sudo apt-get install cups <-- installs cups
+# lp        <-- send file to printer
+# lpstat -t <-- see all printers on system
+# cupsaccept, cupsreject, cupsenable, or cupsdisable
+# cupsdisable -r "Changing toner cartridge" printer1
+# lp -d printer1 /etc/inittab <-- prints file
+# lpoptions -d printername <-- specifies default printer for all users on system
+# vim .lpoptions <-- user can specify their own default printer
+# PRINTER=printer2 <-- use env variables to specify default printer
+# export LPDEST=printer2
+# lp -d printer1 /etc/hosts /etc/issue <-- print multiple files
+# who | lp -d printer1 <-- takes stdout and prints
+# lpstat <-- shows list of print jobs
+-----------------------------------------------------------
+Wildcards
+
+# a* <-- all files begining with a
+# ?.txt <-- all files with one char proceeding txt
+# a? <-- find all files with one character following a
+# a?.txt <-- find all files with one character following, followed by .txt
+
+Character Classes
+- A character class []
+- Matches any of the characters included between the brackets
+# [aeiou]* <-- all files begining with a vowel
+# can[nt]* <-- match can, cat, catch, candy
+
+Excluding
+# ls [!aeiou]* <-- lists files that do not start with vowel
+
+Ranges
+# ls [a-g]* <-- matches files that start with a,b,c,d,e,f,g
+# ls [3-6]* <-- matches files that begin with 3,4,5,6
+
+
+
+
+
+
+
+
+
