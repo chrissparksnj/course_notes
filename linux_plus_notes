@@ -755,7 +755,82 @@ BACKUP
 # tar -cvf /dev/st0 * 	       <-- creates tar ball directly on device. overwrites all information on device
 # tar -xvf /dev/st0 	       <-- extracts compressed tarball residing on device
 # tar -rvf /dev/st0 samplefile <-- adds file to existing tarball, doesnt work on compressed tarballs
+# CPIO
+* supports long file names and device files
+# ls -l | cpio -vocB -O /dev/st0 <-- c uses common file formatting
+                 <-- o creates new archive
+                 <-- v is verbose
+                 <-- B increases block size to 512, speeds up transfer
+# cpio -vitB -I /dev/st0         <-- reads index of backup
+# cpio -vicduB -I /dev/st0       <-- extracts backup
+# ls -l | cpio -vocB -O /home/dinner/backup.cpio <-- creates backup in directory
 
+DUMP
+* only work on ext2, ext3, ext4
+* dump, restore commands
+* full backup = 0
+* incrementral backup(only backup changed info) = 1-9
+# dump -0uf /dev/st0 /dev/sda3 <-- creates full backup of sda partition to st0 device
+                 <-- u: updates /etc/dumpdates
+                 <-- f: filename to backup to
+# dump -1uf /dev/st0 /dev/sda3 <-- creates incremental backup
+# restore -tf /dev/st0         <-- views contents of backupfile
+# restore -vrf /dev/st0        <-- extracts backup with verbose mode
+
+VERYIFYING DOWNLOADS
+# md5sum
+# sha512sum
+# sha256sum
+
+INSTALLING FROM SOURCE
+# tar -zxvf tarball.tar.gz
+# cd tarball
+# ./configure
+# head Makefile <-- good to read makefile after configure. might contain some configuration
+# make          <-- compiles programs
+# make install  <-- moves compiled programs to correct locations
+RPM
+# rpm -i bluefish-2.3.rpm <-- installs rpm package
+* -v:verbose
+* -h:show hashes
+# rpm -q bluefish  <-- shows full package name of installed program
+# rpm -qi bluefish <-- shows full package name and lots of information
+# rpm -ql bluefish <-- shows executable files of program
+# rpm -qf /usr/bin/bluefish <-- shows package associated with executable
+# rpm -qf bluefish bluefish-shared-data <-- removes package from system
+* yum uses /etc/yum.conf and /etc/yum.repos.d/* <-- specifies which software repositories to use
+# yum install packagename <-- installs package and dependencies
+# yum update bash         <-- updates version of package
+# yum                     <-- attempts to update packages
+# yum check-update        <-- shows packages that can be updated
+# yum search keyword      <-- searches repositories for package name
+# yum grouplist           <-- shows packages that are usually grouped/installed together
+# yum groupinstall "Development Tools" <-- installs group
+* updates software repositores and adds repo to software source list
+# rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm
+# yum install vlc <-- can only be run after you install new repo with rpm
+# yum list installed <-- lists all packages installed by rpm
+# yum remove package <-- removes package
+# yum groupremove packagegroupname <-- removes full group packages.
+
+DEBIAN PACKAGE MANAGER(DPM)
+# dpkg -i bluefish_2.2.6.deb      <-- installs .deb package
+# dpkg-reconfigure <-- reconfigure software after install
+* dpm database located in /var/lib/dpkg
+# dpkg -l bash <-- queries information about your debian package of BASH
+# dpkg -p bash <-- shows detailed info about bash
+# dpkg -L bash <-- lists all files associated with package
+*apt-get (advanced package tool)
+# apt-get install conky <-- installs conky package from repository
+# apt-get remove conky  <--removes conky package
+# apt-get purge conky   <-- removes configuration files
+# apt-get update && apt-get upgrade <--updates packages and upgrades deb packages
+* DPM repo info stored
+  - /etc/apt/sources.list
+  - /etc/apt/sources.list.d
+# add-apt-repository <reponame>    <-- adds repository to sources list
+# apt-cache search conky        <-- searches repositories
+# aptitude 
 
 -----------------------------------------------------------
 Wildcards
