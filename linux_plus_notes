@@ -831,6 +831,61 @@ DEBIAN PACKAGE MANAGER(DPM)
 # add-apt-repository <reponame>    <-- adds repository to sources list
 # apt-cache search conky        <-- searches repositories
 # aptitude 
+-----------------------------------------------------------
+NETWORKING
+* Local Area Network: PC's in close proximity
+* Wide Area Networks: PC's with lots of distance in between
+* packets: breaking down of information that routers, and others can recognize
+* network id: network where PC is located
+* host id: individual PC on network
+
+* NIC modules are stored in: /lib/modules with .ko(kernal object) extension
+# lsmod <-- lists current modules in use
+# rmmod <-- removes mod
+# insmod || modproble <-- manually load module
+# cat /etc/modules <-- add module here to load at boottime
+# /etc/modprobe.d  <-- Fedora modules for bootime
+# alias eth0 tulip <-- add this line to modules files to be run at boot
+
+# ifconfig eth0 3.4.5.6 netmask 255.0.0.0 broadcast 3.255.255.255
+* assigns ip address to eth0, netmask and broadcast address
+# dhclient eth0 <-- uses server to assign address
+* if computer has no DHCP server, system will assign 169.254.x.x
+* this is called Automatic Private IP addressing. 
+# netstat -i <-- can also be used to show interface statistics
+# cat /etc/sysconfig/network-scripts/ifcfg-eth0 <-- fedora location for loading network information at boot
+~ (ONBOOT=yes) 		  <-- loads this config at boottime
+~ (IPV6_AUTOCONF=yes) <-- use IPv6
+~ BOOTPROTO=dhcp	  <-- DHCP used to get configuration
+# eth0 down, eth0 up  <-- restarts and enables NIC configuration
+
+* Ubuntu stores network confis in /etc/network/interfaces
+# vim /etc/network/interfaces
+~ iface eth0 inet static to iface eth0 inet dhcp <-- enables NIC to use DHCP
+
+# hostname <-- shows host name
+# hostname computer1.sampledomain.com <-- sets host name
+# hostnamectl newname <-- configures hostname at boot
+# vim /etc/hostname   <-- configures hostname at boot
+# cat /etc/hosts      <-- resolves IP address to host names
+
+# cat /etc/hosts
+~ 127.0.0.1
+~ server1 server1.class.com localhost localhost.localdomain
+~ ::1
+~ server1 server1.class.com localhost6 localhost6.localdomain6
+~ 3.0.0.2
+~ ftp.sampledomain.com fileserver
+~ 10.3.0.1
+~ alpha
+
+# cat /etc/resolv.conf <-- lists and edits DNS servers
+
+# dns-nameservers 209.121.197.2 192.139.188.144 6.0.4.211 <-- ubuntu way of setting DNS server
+
+# dns-nameservers 209.121.197.2 192.139.188.144 6.0.4.211
+~ hosts:          files mdns4_minimal [NOTFOUND=return] dns
+* looks in hosts file, then dns
 
 -----------------------------------------------------------
 Wildcards
