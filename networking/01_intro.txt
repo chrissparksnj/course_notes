@@ -1,0 +1,63 @@
+Simple Protocol
+
+1. Client PC requests a TCP connection to web server
+2. Web server replies that it's ok to connect
+3. Client PC requests a document
+4. Server responds and sends document
+
+* a protocol defines the format and the order of messages exchanged 
+* between two or more communicating entities, as well as the actions
+* taken on the transmission and/or receipt of a message or other event.
+
+Access networks: edge routers that connect you to internet
+
+Two most common ways to connect to internet:
+	- Digital Subscriber Line (DSL)
+	- Cable
+
+DSL uses telephone (twisted pair copper wire) to exchange digital data
+DSL modem translates digital data to high frequency tones
+Telephone line carries data and traditional signals.
+
+Cable internet connection
+	- every packet sent by cable co (downstream) goes to every home.
+	- home packets (upstream) travels on upstream channel to head.
+
+LAN: used to connect end systems to edge routers
+
+Physical Media: Ways to transmit packets
+	- guided media: a solid medium like copper wire
+	- unguided media: wireless LAN or digital satellite
+
+Twister Pair:	
+	- UTP: Unshielded twister pair
+	- twisted pair (6a) can support 10Gbps
+
+Coaxial Cable:
+	- shared medium: many processes can run over this medium
+
+Fiber Optics
+	- 100Gbs
+	- expensive equiptment: transmitters, receivers, and switches
+
+Terrestrial Radio Channels
+	- attractive because they can run through walls
+	- provide connectivity to mobile users
+	- three categories: short distance, local areas, wide areas
+	- Short: wireless mouse
+	- Local: Wireless LAN
+	- Wide: Cellular network
+
+Satellite Radio
+	- Geostationary and LEO
+	- Geostationary: Fixed position at 36,000 km above earth's surface
+	- Low Earth Orbitting: Rotate around earth, provide internet to no connection areas.
+	- Loyd's Satellite constellations webpage shows sattelite info
+
+
+	
+
+
+
+
+	
