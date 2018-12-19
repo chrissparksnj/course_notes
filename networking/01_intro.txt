@@ -54,9 +54,37 @@ Satellite Radio
 	- Low Earth Orbitting: Rotate around earth, provide internet to no connection areas.
 	- Loyd's Satellite constellations webpage shows sattelite info
 
+Two Types of Packet Switches:
+	- Routers
+	- Link layer switches
+	- Packets delivered at full transmission rate of link
+	- L(Len of packets) sent over R(bits/second) then time for packet is L/R
+	- Store and forward transmission: Whole packet must be recieved before 1st bit is sent
+	- Router must *buffer* or store packets before it sends
+	- Packet switch has *output buffer(, or output queue
+	- Queing delays: packet must wait for output link to be free
+	- Full buffer = packetloss. Arriving packet or queued packet dropped.
 
+	*IP Address stored in packets header
+	1. Packet arrives at router
+	2. Router matches packet with fowarding table
+	3. Router uses output link specified by forwarding table
+
+Circuit Switching
+	- Resources reserved and maintained throughout entire process
+	- Like making reservations and being seated imedietly, rather than showing up and waiting
+	- When network establishes *circuit* also reserves constant transmission rate
+	- Guaranteed transmission rate
+Multiplexing in Circuit Switching
+	- Frequency Division Multiplexing
+	- Time Division Multiplexing
+	- FDM (frequency spectrum of a link divided up among the connections established) 
+	- Telephone connection runs at 4kHz (4,000Hertz or 4,000 cycles per second)
+	- Radio freqencies operate at 88MHz and 108MHz
 	
 
+
+	
 
 
 
