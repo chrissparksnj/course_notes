@@ -1,0 +1,65 @@
+
+1. What kernel version is your Linux system running?
+	# uname -r 			--> 4.19.9-arch1-1-ARCH
+
+
+2. What is the size of the kernel file that corresponds to the kernel your system is running?
+	# ls -l /boot/vmlinuz-linux --block-size=M --> 6Megs
+
+3. How much RAM is available to your running kernel? Note: It may or may not be the amount of
+physical RAM on your system.
+	# head /proc/meminfo
+	# free -h
+
+4. The command strace will display the system calls that a process makes as it runs. Using the man command, determine what option for strace will show a summary, with a count, of the number of times a process called each system call. Using that option, what system call is called the most by the command date ?
+	# strace -c date  ( chdir system call )
+	# which cd 		  ( /usr/bin/cd )
+	# echo "#!/bin/bash builtin cd \"$@\"" > /usr/bin/cd
+
+
+5. Can you determine, using strace , what system call is used to change the directory?
+	# strace cd /tmp
+	
+
+6. Run a sleep 100 with & (to put it in the background). What files does its process have open?
+	# sleep 100 &
+	[1] 9238
+	# ls -l /proc/9238/fd
+	~ 0 -> /dev/pts/1
+	~ 1 -> /dev/pts/1
+	~ 2 -> /dev/pts/1
+	# tty ( /dev/pts/1 )
+ 
+
+7. Does your system have a PCI Ethernet device?
+	# lspci | grep -i ethernet
+
+8. Is the kernel variable ip_forward (under /proc/sys/ ...) set to 1 or 0 on your system?
+	# sudo su
+	# cd /proc
+	# find . -name ip_forward --> /sys/net/ipv4/ip_forward
+	# cat /proc/sys/net/ipv4/ip_forward --> 0
+	--------------------------------------------
+	# sysctl -a ( shows all tunable kernel objects )
+	# sysctl -a | grep ip_forward
+	# sysctl net.ipv4.ip_forward ( net.ipv4.ip_forward = 0 )
+	# sysctl net.ipv4.ip_forward = 1 (update variable ) 
+ 
+
+9. According to /sys/block , do you have a block device (disk) sda ? If so, do you have device files for partitions of sda ? How many? Using strace , does the command fdisk -l (run it as root), open any files under /sys/dev/block ?
+	# ls -l /sys/block/sda
+	# fdisk -l | grep sda
+	# strace fdisk -l |& grep /sys/block ( redirects stdout of sysblock )
+	# strace fdisk -l |& grep /proc
+    # cat /proc/partitions
+
+10. Using dmesg and grep , do you see the kernel reporting the kernel command line? If not, can you determine if the boot messages from the kernel were lost? Does your system have a log file that recorded the boot messages? You can grep for BOOT_IMAGE under /var/log to look.
+	# dmesg | grep -i command
+	# cd /var/log && grep -r "Command line" *
+	
+
+11. What other device files are character devices and share the same major number with /dev/null ?
+	# ls -l /dev/null (major number = 1)
+	# ls -l /dev | grep ^c | grep " 1, " (lines that begin with c, and have a 'space 1 comma'
+
+

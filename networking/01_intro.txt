@@ -52,7 +52,7 @@ Satellite Radio
 	- Geostationary and LEO
 	- Geostationary: Fixed position at 36,000 km above earth's surface
 	- Low Earth Orbitting: Rotate around earth, provide internet to no connection areas.
-	- Loyd's Satellite constellations webpage shows sattelite info
+	- Loyd's Satellite constellations webpage shows sattelite info 
 
 Two Types of Packet Switches:
 	- Routers
@@ -82,6 +82,13 @@ Multiplexing in Circuit Switching
 	- Telephone connection runs at 4kHz (4,000Hertz or 4,000 cycles per second)
 	- Radio freqencies operate at 88MHz and 108MHz
 	
+Proponents of packet switching:
+	- Less cost
+	- Better sharing of resources
+	- "People who do not like to hassle with reservations prefer packet switching"
+	* Packet switching isn't reliable for real time services (streaming, phone calls)
+	- Packet switching provides same service, but allowing for more users
+
 
 
 	
