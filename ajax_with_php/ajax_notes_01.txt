@@ -1,0 +1,75 @@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++ Ajax Jquery Code +++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+$.ajax({
+	type: "GET",
+	url:"script.php",
+	async: true,
+	data: {},
+	dataType: "text",
+	success: function(data){
+		$("#main").html(data);
+	},
+	error: function(jqXHR, textStatus, error);	
+})
+
+$.get({
+	url: "script.php",
+	dataType: "text",
+	success: function(data){
+		$("#main").html(data);
+	}
+});
+
+$.post({
+	url:"script.php",
+	dataType:"text",
+	data:"{data}"
+})
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++ Ajax Requests ++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Scenarios
+	- Page assumes request was AJAX
+	- Page detects if request was AJAX
+	- Handle regular and AJAX requests differently
+
+Different Request Header: X-Requested-With
+	+ xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+PHP Code
+----------------
+function is_ajax_request(){
+	return isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+	$_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+}
+
+if(is_ajax_request()){
+	echo "Ajax response";
+} else{
+	echo "Non-Ajax response";
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++ Ajax JSON Response +++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+$assoc = array('a' => 1, 'b' => 2, 'c' => 3);
+echo json_encode($assoc); // {"a":1,"b":2,"c":3}
+----------------------------
+$array = array('a', 'b', 'c');
+json_encode($array); 
+//["a","b","c"]
+
+echo json_encode($array, JSON_FORCE_OBJECT);
+// {"0":"a","1":"b","2":"c"}
+-----------------------------
+class User{
+	public $first_name = "Joe";
+	public $last_name = "Public";
+	private $secret_name = "Fake ID";
+}
+
+$user = new User();
+echo json_encode($user);
+//{"first_name":"Joe","last_name":"Public"}

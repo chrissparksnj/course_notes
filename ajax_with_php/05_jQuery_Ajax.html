@@ -1,0 +1,21 @@
+$.ajax({
+	type: "GET",
+	url: "script.php",
+	async: "true",
+	data: {},
+	dataType: "text",
+	success: function(data){
+		$("#main").html(data);
+	},
+	error:function(jqXHR, textStatus, error){}
+});
+
+// Short hand form
+
+$.get({
+	url:"script.php",
+	dataType: "text",
+	success: function(data){
+		$("#main").html(data);
+	}
+})

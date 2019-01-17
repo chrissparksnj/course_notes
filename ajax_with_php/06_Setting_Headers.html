@@ -1,0 +1,18 @@
+<script type="text/javascript">
+	
+xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+</script>
+
+function is_ajax_request(){
+	return isset($_SERVER['HTTP_X_REQUESTES_WITH']) &&
+		   $_SERVER['HTTP_X_REQUESTES_WITH'] == 'XMLHttpRequest';
+}
+
+
+if(is_ajax_request()){
+	echo "Ajax Response";
+}else{
+	echo "Non-ajax response";
+}
+</script>

@@ -1,0 +1,58 @@
+------------------------------
+---- Parsing the response ----
+------------------------------
+
+XML - Already parsed, well formatted, work with XML
+JSON - more common, JavaScript Object Notation
+
+-------------------
+--- JSON object ---
+-------------------
+var person = {
+	'first_name': 'Bob',
+	'last_name': 'Smith'
+}
+
+var person = JSON.parse(response);
+
+---------------------------------------
+--- Resonse Example with JSON Parse ---
+---------------------------------------
+
+
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "script.php", true);
+xhr.send();
+
+var json = JSON.parse(xhr.responseText);
+var target = document.getElementById("main");
+target.innerHTML = json.last_name;
+
+
+-------------------------
+--- States and Events ---
+-------------------------
+
+readyState: value indicating status of XMLHttpRequest
+xhr.readyState
+ - 0: Connection created but not opened
+ - 1: Connection opened
+ - 2: Request Sent, received by server
+ - 3: Response in progress (partial data)
+ - 4: Response Complete
+
+onreadystatechange
+ - used to store function
+ - function called each time readyState changes
+
+
+xhr onreadystatechange = function(){
+	if(xhr.readyState == 4 && xhr.status == 200{
+		var target = document.getElementById("main");
+		target.innerHTML = xhr.responseText;
+	}
+}
+
+-------------------------
+--- Load Remote Text  ---
+-------------------------

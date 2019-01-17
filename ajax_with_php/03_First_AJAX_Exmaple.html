@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<div id = "main">
+	This is the original text when page loads
+</div>
+<button id='ajax-button' type='buttom'>Update with AJAX content</button>
+
+
+<script type="text/javascript">
+	
+	function replaceText(){
+		var target = document.getElementById("main");
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "new_content.txt", true);
+		xhr.onreadystatechange = function(){
+			console.log("Ready State: " + xhr.readyState);
+			if(xhr.readyState == 2){
+				target.innerHTML = "Loading...";
+			}
+			if(xhr.readyState == 4){
+				
+				target.innerHTML = xhr.responseText;
+			}
+		}
+		xhr.send();
+
+	}
+
+	var button = document.getElementById("ajax-button");
+	button.addEventListener('click', replaceText);
+</script>
+
+</body>
+</html>

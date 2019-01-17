@@ -1,0 +1,61 @@
+---- What is AJAX ----
++ Asynchron JavaScript and XML
++ Browser sends and receives data in the background
++ Group of technology
+
+----Ajax Requests----
+
+new
+open(method, url, async);
+send();
+
+
+---- Creating New AJAX Object ----
+var xhr = new XMLHttpRequest();
+
+
+xhr.open("GET", "script.php", true);
+
+ - GET - Method used to execute request
+ - script.php - location of script
+ - true - asynchronous is true
+
+xhr.send();
+
+* GET requests: used for retrieving data
+* POST requests: used for sending/changing data
+
+
+---- Sending form data through POST ----
+// xhr.setRequestHeader(header, value);
+var xhr = new XMLHttpRequest();
+xhr.open("POST", "form_process.php", true);
+xhr.setRequestHeader("Content-type", application/x-www-form-urlencoded");
+xhr.send(first_name=Bob&last_name=Smith");
+
+
+---- Responses ----
+* Can either be text or XML
+
+// text is more flexible:
+	- text
+	- HTML
+	- JSON
+	- images
+`xhr.responseText` for text
+
+
+// XML is only for XML
+`xhr.responseXML` for XML
+
+---------------------------
+	Response 
+----------------------------
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "script.php", true);
+xhr.send();
+var text = xhr.responseText;
+var target = document.getElementById("main");
+target.innerHTML = text;
+
+----------------------------

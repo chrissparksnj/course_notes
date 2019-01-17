@@ -1,0 +1,135 @@
+Ajax Notes
+-----------------
+Asynchronous JavaScript and XML
+-----------------
+Requests
+-----------------
+XMLHttpRequest
+	- new
+	- open()
+	- send()
+
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "script.php", true);
+	- GET <-- Method
+	- URL <-- Where request is sent
+	- true <-- Asynchronous Request true
+
+xhr.send();
+
+POST VALUE
+	- setRequestHeader(header, value);
+	- xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	- xhr.send("first_name=Bob&last_name=Smith");
+
+GET vs. POST
+	- GET: Used for retrieving
+	- POST: Sending/Changing
+
+-----------------
+Ajax Responses
+-----------------
+- responseText
+- responseXML
+
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "script.php", true);
+xhr.send();
+
+var text = xhr.responseText;
+var target = document.getElementById('main');
+target.innerHTML = text;
+
+
+-----------------
+Ready States
+-----------------
+xhr.readyState 
+	-0: Connection created but not opened
+	-1: Connection Opened
+	-2: Request sent, received by server
+	-3: Response in progress(partial data)
+	-4: Response complete(success or failure)
+
+	-onreadystatechange (used to store javascript function())
+	-^^ called each time readyState changes
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "script.php", true);
+	xhr.send();
+
+	var target = document.getElementById("main");
+	target.innerHTML = xhr.responseText;
+
+----------------------------------------------------
+++++++++++++++++++First Example+++++++++++++++++++++
+----------------------------------------------------
+
+function replaceText(){
+	var target = document.getElementById("main");
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", 'new_content.txt', true);
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 2){
+			target.innerHTML = "Loading...";
+
+		}if(xhr.readyState == 4 && xhr.status == 200) {
+			target.innerHTML = xhr.responseText;
+
+		}
+	   }
+	}
+
+var button = document.getElementById("ajax-button");
+button.addEventListener("click", replaceText);
+----------------------------------------------------
+++++++++++++++++++JSON Data+++++++++++++++++++++++++
+----------------------------------------------------
+
+//Adds Event Listener to "Ajax-Button"
+//Returns Function findLocation
+//Opens new ajax request
+//if ajax call successful, calls "outputLocation()"
+//Output Location Loads JSON data in var json
+//div with id "location" is filled with json.result[0].format_address
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++ Code +++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+var api = "http://maps.googleapis.com/maps/api/geocode/json";
+
+function findLocation(){
+    var zipcode = document.getElementById("zipcode");
+    var url = api + "?address=" + zipcode.value;
+    console.log(url);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
+	if(xhr.readyState < 4){
+	   showLoading();
+	}
+	if(xhr.readyState == 4 && xhr.status == 200){
+	  outputLocation(xhr.responseText);
+	};
+ };
+
+xhr.send();
+}
+
+
+function showLoading(){
+	var target = document.getElementById("location");
+	target.innerHTML = "Loading";
+}
+function outputLocation(data){
+	var target = document.getElementById("location");
+	var json = JSON.parse(data);
+	var address = json.results[0].formatted_address;
+	target.innerHTML = address;
+
+}
+
+var button = document.getElementById("ajax-button");
+button.addEventListener("click", findLocation);
+

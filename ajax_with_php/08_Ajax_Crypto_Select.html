@@ -1,0 +1,88 @@
+
+<?php //header('Access-Control-Allow-Origin: *'); ?>
+
+
+
+<html>
+
+
+
+<div id='form'>
+  <p> Which category are you interested in?: </p>
+  <select id='category-select'>
+    <option disabled selected>Please select</option>
+    <option value="1">Bittrex</option>
+    <option value="2">Kraken</option>
+    <option value="3">Bitfinex</option>
+    <option value="4">Poloniex</option>
+</select>
+
+<select id ='subcategory-select'></select>
+</div>
+
+<div id='main'>
+
+
+</div>
+</html>
+
+<script>
+
+function debug(item){
+        return console.log("Debug: " + item);
+}
+
+var api_options = { 4: "https://poloniex.com/public?command=returnTicker",
+                1: "https://bittrex.com/api/v1.1/public/getcurrencies",
+                2: "https://api.kraken.com/0/public/Assets",
+                3: "https://api.bitfinex.com/v1/symbols"
+}
+
+function get_data(url){
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.onreadystatechange = function(){
+                if(xhr.readyState == 2){
+                        console.log("Loading...");
+                }
+                if(xhr.readyState == 4){
+                        json = JSON.parse(xhr.responseText);
+                        var new_json = json.result;
+                        console.log(new_json.CurrencyLong);
+                        for(var i = 0; i< new_json.length; i++){
+                                var option = document.createElement("option");
+                                option.text = new_json[i].CurrencyLong;
+                                option.value = new_json[i].Currency;
+                                var select = document.getElementById("subcategory-select");
+                                select.appendChild(option);
+                                console.log(new_json[i].CurrencyLong);
+
+
+                        }
+                        //document.getElementById("main").innerHTML = json;
+                }
+        }
+        xhr.send();
+}
+
+
+function updateSubcategories(){
+        var cat_select = document.getElementById("category-select");
+        var subcat_select = document.getElementById("subcategory_select");
+        // get selector, take all of its options, return option that has selected index
+        var cat_id = cat_select.options[cat_select.selectedIndex].value;
+        var url = api_options[cat_id];
+        get_data(url);
+        debug(url);
+
+}
+
+function parse_bittrex(data){
+        json = JSON.parse(data);
+}
+
+
+
+var button = document.getElementById("category-select");
+button.addEventListener("change",  updateSubcategories);
+
