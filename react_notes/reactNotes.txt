@@ -1,0 +1,226 @@
+React Notes
+
+17:00 1/29/2019
+
+ECMA standards: 
+	- Stages 0 (new proposals) 
+	- Stage 4 (finished proposals) 
+
+Constants 
+* old way *
+$: var pizza = true
+$: pizza = false
+$: console.log(pizza) //false
+
+* new way *
+$: const pizza = true
+$: pizza = false
+$: Error: Uncaught TypeError... 
+
+
+Let
+* old way *
+--------------------------
+lexical scope in Javascript means that a variable defined outside a function can be accessible inside another function defined after the variable declaration. 
+--------------------------
+var topic = "Javascript"
+if (topic) {
+    var topic = "React"
+    console.log("block ", topic) // block React
+}
+console.log('global ', topic) // global react
+
+* new way *
+--------------------------
+let keyword scopes variable to any code black. using let protecs the value of the global variable
+--------------------------
+var topic = "JavaScript"
+if (topic) {
+    let topic = "React"
+    console.log("block ", topic) // React
+}
+console.log('global ', topic) // Javascript
+
+* old way *
+--------------------------
+i is global, so every time i is referenced, it will reference global number
+--------------------------
+for (var i = 0; i < 5; i++){
+
+    var new_div = document.createElement('div')
+
+    new_div.className = purple
+
+    new_div.onclick = function(){ alert("This is box # " + i) }  // Every box comes back as "This is box # 5
+
+    constainer.appendChild(new_div)
+}
+
+* new way *
+--------------------------
+let allows global scope of i to be blocked off, allowing i to be the dynamic representation
+--------------------------
+for ( let i = 0; i < 5; i++) {
+    var new_div = document.createElement('div')
+    new_div.className = purple
+    new_div.onclick = function(){ alert("This is box #") } // This is box 1, This is box 2
+    constainer.append(new_div)
+}
+
+Template Strings
+* Old Way *
+--------------------------
+Must use concatination to join strings
+--------------------------
+console.log(lastName + ", " + firstName + " " + middleName)
+
+* New Way *
+--------------------------
+Template Strings: note* they honor whitespace: note* html is rendered
+--------------------------
+console.log(`${firstname}, ${lastname}, ${middlename}`)
+
+var template_string = 
+` Hello ${firstName}, 
+	Thanks for ordering ${qty} tickets to ${event}.
+	${qty} x $${price} = $${qty*price} to ${event}
+`
+
+document.body.innerHTML = `
+	<h1>${article.title}</h1>
+	${article.body}
+	<footer>${layout.footer}</footer>
+`
+
+Default Values
+--------------------------
+Allows the usage of default values to be passed into functions
+--------------------------
+function logActivity(name="Shane McConkey, activity="skiing"){
+	console.log(`${name} loves ${activity}
+}
+logActivity() // "Shane McConkey loves skiing" 
+logActivity("Chris", "eating") // "Chris loves eating"
+
+--------------------------
+Function arguments can be default and of type object 
+--------------------------
+var defaultPerson = {
+    name: {
+	first: "Shane",
+	last: "McConkey"
+     },
+     favActivity: "skiing"
+}
+
+--------------------------
+-> Arrow Functions => the arrow points to what should be returned. 
+-> More than one argument should be wrapped in curly braces
+-> More than one line needs to be wrapped in curly braces
+--------------------------
+* oldway *
+var lordify = function(firstname){ return `${firstname} of Cantebury` }
+console.log(lordify("Chris"))
+
+* new way *
+var lordify = firstname => `${firstname} of Cantebury`
+var lordify = (firstname, land) => `${firstname} of ${land}` 
+
+--------------------------
+-> Arrow functions do not block off "this"
+-> In Arrow function, this is actually the window
+--------------------------
+* old way *
+var tahoe = {
+	resorts: ["Kirkwood", "Squaw", "Alpine"]
+	print: function(delay=1000){
+		setTimeout(function(){
+			console.log(this.resorts.join(","))
+		}, delay)
+	}
+}
+
+* new way *
+var tahoe = {
+    resorts: ["Kirkwood", "Squaw", "Alpine"],
+    print: function(delay=1000){
+		setTimeout( () => {
+			console.log(this.resorts)
+		}, delay)
+	}
+}
+
+tahoe.print()
+
+--------------------------
+-> Destructuring
+-> Pulling values out of data
+--------------------------
+* new way *
+var sandwich = {
+	bread: "Wheat",
+	meat: "Tuna", 
+	cheese:"Swiss",
+	toppings: ["Lettuce", "tomato", "mustard" ]
+}
+
+var {bread, meat} = sandwich
+console.log(bread, meat) // "Wheat", "Tuna"
+
+* new way *
+var regularPerson = {
+	firstname: "Bill",
+	lastname: "Wilson"
+}
+var lordify = ({firstname}) => { console.log(`${firstname} of cantebury`) }
+lordify(regularPerson)
+
+* pulling first value out of array *
+var [firstresort] = ["Kirkwood", "Squaw", "Alpine"]
+console.log(firstresort) // "Kirkwood"
+
+* pull third item out of array *
+var [,,thirdresult] = ["Kirkwood", "Squaw", "Alpine"]
+console.log(thirdresult) // Alpine
+
+
+--------------------------
+-> Object Literal Enhancement
+-> Opposite of destructuring
+-> can use functions with Object Literal Enhancement
+-> no need for function keyword for object methods
+--------------------------
+var name = "Tallac"
+var elevation = 9738
+var funHike = {name, elevation} // { name: 'Tallac', elevation: 1000 }
+
+var name = "Tallac"
+var elevation = 10000
+var print = function(){
+	console.log(`Mt. ${this.name} is ${this.elevation} feet tall`)
+}
+var funHike = {name, elevation, print}
+funHike.print()
+
+** Old Way **
+const skier = {
+	name:name,
+	powderYell: function(){
+		console.log("AHHHHHHH")
+	}
+}
+
+** New Way **
+const skier = {
+	name: name,
+	powderYell(){console.log("AHHHH")}
+}
+
+--------------------------
+-> SPREAD OPERATOR
+--------------------------
+
+
+
+
+

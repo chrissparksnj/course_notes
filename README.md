@@ -1,1 +1,3 @@
-# linux_notes_and_commands
+# Notes
+
+> Just some notes for my studies.
