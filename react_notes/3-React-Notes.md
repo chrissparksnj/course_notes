@@ -1,6 +1,6 @@
 ---
 title: 3-React-Notes
-tags: [react]
+tags: [react, Import-e4d1]
 created: '2019-02-05T00:38:01.820Z'
 modified: '2019-02-09T03:18:09.662Z'
 ---

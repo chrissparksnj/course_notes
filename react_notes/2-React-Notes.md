@@ -1,8 +1,9 @@
 ---
 title: 2-React-Notes
 created: '2019-02-02T06:12:39.576Z'
-modified: '2019-02-09T03:17:57.230Z'
-tags: [react]
+modified: '2019-02-09T07:11:24.955Z'
+tags: [Import-e4d1, react]
+deleted: true
 ---
 
 # 2-React-Notes
@@ -61,6 +62,7 @@ React.createElement(
 )
 ```
 *Same list with map*
+
 ```javascript
 var items = [
   "1 lb Salmon",
@@ -74,9 +76,8 @@ const list = React.createElement("ul",
       items.map( (ing, i) => React.createElement("li", {"key":i}, ing) )
  )
 ```
-  ### react.createclass()
-  - React.createClass ta
-  
+
+### React.createclass()
   
   ```javascript
 
@@ -102,7 +103,7 @@ const list = React.createElement("ul",
 
   ```
   
- ### Using self-contained classes
+### Using self-contained classes
  ```javascript
 const items = ["Wrenches", "Ratchets", "Sockets"]
 const snapon = React.createClass({
@@ -118,7 +119,7 @@ const snapon = React.createClass({
 ReactDOM.render(
    React.createElement(snapon, {items}, null),document.getElementById("root"))
  ```
-  ### Stateless Functional Components
+### Stateless Functional Components
   * They are functions, so they dont have *this*
   * They are functions that take in properties, and return a DOM
   
@@ -139,10 +140,10 @@ ReactDOM.render(
             )
  ```
  
-*Create Factory*
-*First argument is for the properties*
-*Second argument is for the children*
-*Abstracts object instantiation away*
+### Create Factory
+* First argument is for the properties
+* Second argument is for the children
+* Abstracts object instantiation away
 
 ```javascript
 React.DOM.h1(null, "Baked Salmon")
