@@ -1,9 +1,8 @@
 ---
 title: 2-React-Notes
 created: '2019-02-02T06:12:39.576Z'
-modified: '2019-02-09T07:11:24.955Z'
-tags: [Import-e4d1, react]
-deleted: true
+modified: '2019-02-09T07:11:10.029Z'
+tags: [Import-f845, react]
 ---
 
 # 2-React-Notes
