@@ -1,7 +1,7 @@
 ---
 title: 2-React-Notes
 created: '2019-02-02T06:12:39.576Z'
-modified: '2019-02-09T07:05:29.795Z'
+modified: '2019-02-09T07:08:45.166Z'
 tags: [Import-e4d1, react]
 ---
 
@@ -140,9 +140,9 @@ ReactDOM.render(
  ```
  
 ### Create Factory
-*First argument is for the properties*
-*Second argument is for the children*
-*Abstracts object instantiation away*
+* First argument is for the properties
+* Second argument is for the children
+* Abstracts object instantiation away
 
 ```javascript
 React.DOM.h1(null, "Baked Salmon")
