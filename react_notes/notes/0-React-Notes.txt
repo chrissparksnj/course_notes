@@ -1,0 +1,226 @@
+---
+tags: [Import-e4d1]
+title: 0-React-Notes
+created: '2019-02-09T06:42:14.880Z'
+modified: '2019-02-09T07:03:14.856Z'
+---
+
+# 0-React-Notes
+
+### Constants 
+*Old Way*
+``` javascript
+$: var pizza = true
+$: pizza = false
+$: console.log(pizza) //false
+```
+*New Way*
+```javascript
+$: const pizza = true
+$: pizza = false
+$: Error: Uncaught TypeError... 
+```
+
+### Let
+*Old Way*
+
+* lexical scope in Javascript means that a variable defined outside a function can be accessible inside another function defined after the variable declaration. 
+```javascript
+var topic = "Javascript"
+if (topic) {
+    var topic = "React"
+    console.log("block ", topic) // block React
+}
+console.log('global ', topic) // global react
+```
+*New Way*
+* **let** keyword scopes variable to any code black. Using **let** protects the value of the global variable.
+```javascript
+var topic = "JavaScript"
+if (topic) {
+    let topic = "React"
+    console.log("block ", topic) // React
+}
+console.log('global ', topic) // Javascript
+```
+*Old Way*
+* **i** is global, so every time **i** is referenced, it will reference global number.
+```javascript
+for (var i = 0; i < 5; i++){
+
+    var new_div = document.createElement('div')
+
+    new_div.className = purple
+
+    new_div.onclick = function(){ alert("This is box # " + i) }  // Every box comes back as "This is box # 5
+
+    constainer.appendChild(new_div)
+}
+```
+*New Way*
+* **let** allows global scope of **i** to be blocked off, allowing **i** to be the dynamic representation
+```javascript
+for ( let i = 0; i < 5; i++) {
+    var new_div = document.createElement('div')
+    new_div.className = purple
+    new_div.onclick = function(){ alert("This is box #") } // This is box 1, This is box 2
+    constainer.append(new_div)
+}
+```
+### Template Strings
+*Old Way*
+* Must use concatination to join strings
+
+```javascript
+console.log(lastName + ", " + firstName + " " + middleName)
+```
+
+*New Way*
+* Template Strings: note* they honor whitespace: note* html is rendered
+
+```javascript
+console.log(`${firstname}, ${lastname}, ${middlename}`)
+
+var template_string = 
+` Hello ${firstName}, 
+	Thanks for ordering ${qty} tickets to ${event}.
+	${qty} x $${price} = $${qty*price} to ${event}
+`
+
+document.body.innerHTML = `
+	<h1>${article.title}</h1>
+	${article.body}
+	<footer>${layout.footer}</footer>
+```
+
+### Default Values
+* Allows the usage of default values to be passed into functions
+
+```javascript
+function logActivity(name="Shane McConkey, activity="skiing"){
+	console.log(`${name} loves ${activity}
+}
+logActivity() // "Shane McConkey loves skiing" 
+logActivity("Chris", "eating") // "Chris loves eating"
+```
+
+* Function arguments can be default and of type object 
+
+```javascript
+var defaultPerson = {
+    name: {
+	first: "Shane",
+	last: "McConkey"
+     },
+     favActivity: "skiing"
+}
+```
+### Arrow Functions
+* Arrow Functions => the arrow points to what should be returned. 
+* More than one argument should be wrapped in curly braces
+* More than one line needs to be wrapped in curly braces
+
+*Old Way*
+```javascript
+var lordify = function(firstname){ return `${firstname} of Cantebury` }
+console.log(lordify("Chris"))
+```
+
+*New Way*
+```javascript
+var lordify = firstname => `${firstname} of Cantebury`
+var lordify = (firstname, land) => `${firstname} of ${land}` 
+```
+* Arrow functions do not block off "this"
+* In Arrow function, this is actually the window
+
+*Old Way*
+```javascript
+var tahoe = {
+	resorts: ["Kirkwood", "Squaw", "Alpine"]
+	print: function(delay=1000){
+		setTimeout(function(){
+			console.log(this.resorts.join(","))
+		}, delay)
+	}
+}
+```
+
+*New Way*
+```javascript
+var tahoe = {
+    resorts: ["Kirkwood", "Squaw", "Alpine"],
+    print: function(delay=1000){
+		setTimeout( () => {
+			console.log(this.resorts)
+		}, delay)
+	}
+}
+tahoe.print()
+```
+
+### Destructuring
+* Pulling values out of data
+
+*New Way*
+```javascript
+var sandwich = {
+	bread: "Wheat",
+	meat: "Tuna", 
+	cheese:"Swiss",
+	toppings: ["Lettuce", "tomato", "mustard" ]
+}
+var {bread, meat} = sandwich
+console.log(bread, meat) // "Wheat", "Tuna"
+
+// new way 
+var regularPerson = {
+	firstname: "Bill",
+	lastname: "Wilson"
+}
+var lordify = ({firstname}) => { console.log(`${firstname} of cantebury`) }
+lordify(regularPerson)
+
+// pulling first value out of array 
+var [firstresort] = ["Kirkwood", "Squaw", "Alpine"]
+console.log(firstresort) // "Kirkwood"
+
+// pull third item out of array 
+var [,,thirdresult] = ["Kirkwood", "Squaw", "Alpine"]
+console.log(thirdresult) // Alpine
+```
+
+### Object Literal Enhancement
+* Opposite of destructuring
+* can use functions with Object Literal Enhancement
+* no need for function keyword for object methods
+```javascript
+var name = "Tallac"
+var elevation = 9738
+var funHike = {name, elevation} // { name: 'Tallac', elevation: 1000 }
+
+var name = "Tallac"
+var elevation = 10000
+var print = function(){
+	console.log(`Mt. ${this.name} is ${this.elevation} feet tall`)
+}
+var funHike = {name, elevation, print}
+funHike.print()
+```
+*Old Way*
+```javascript
+const skier = {
+	name:name,
+	powderYell: function(){
+		console.log("AHHHHHHH")
+	}
+}
+```
+
+*New Way*
+```javascript
+const skier = {
+	name: name,
+	powderYell(){console.log("AHHHH")}
+}
+```
