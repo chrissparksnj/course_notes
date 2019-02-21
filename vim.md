@@ -5,6 +5,7 @@
 `control + g`     - brings up a hidden status line
 
 **Navigation**
+
 `H,J,K,L`         -  h = left; j = down; k = up; l = right
 
 `10 L`            - moves right 10 times
