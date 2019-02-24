@@ -96,4 +96,48 @@
 `:s/you/they/gc` - replaces *all* instances, but confirms each instance
 
 
+## Marks
+
+`ma` 		- creates a mark, and 'a' is the name of the mark.
+
+` `a `		- jumps to mark labeled 'a'
+
+
+`cntrl + o || cntrl i` - move forward or backward in command history
+
+`:jumps` 	       - looks at history of jumps list.
+
+` '. ` 		       - jumps to your last active spot. 
+
+
+## Windows and Buffers
+
+`new: success.txt`    - opens new file in current buffer
+
+`cntrl + w w `	      - moves between windows with two or more buffers
+
+`:e tools.txt`	      - opens new file in blank buffer
+
+`:e new.txt` 	      - opens new file in current buffer
+
+`:bd`		      - deletes current buffer
+
+`:e .` 		      - lists files in current working directory allowing you to see a list of editable files
+
+`j, k, /`	      - navigates file structures within the directory buffer
+
+`a`		      - insert mode ***after*** the cursor
+
+`:ls` 		      - shows open vim buffers
+
+`:bn`		      - moves between buffers
+
+`cntrl + g`	      - get name of current file/buffer
+
+`:b <filename>`	      - moves to specific buffer
+
+`:b 2`		      - switching to buffer by number
+
+
+
 
