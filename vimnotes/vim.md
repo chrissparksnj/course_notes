@@ -4,44 +4,44 @@
 
 `:e new-file.txt` - switches vim buffer to edit *new-file.txt*
 
-`control + g`     - brings up a hidden status line
+`control + g`     - brings up a hidden status line.
 
 ## Navigation
 
-`H,J,K,L`         -  h = left; j = down; k = up; l = right
+`H,J,K,L`         -  h = left; j = down; k = up; l = right.
 
-`10 L`            - moves right 10 times
+`10 L`            - moves right 10 times.
 
-`w`               - moves to *beginning* of the next word
+`w`               - moves to *beginning* of the next word.
 
-`e`               - moves to the *end* of the next line
+`e`               - moves to the *end* of the next line.
 
-`4 e`             - moves to end of word *4 times*
+`4 e`             - moves to end of word *4 times*.
 
-` ) `             - moves to the end of the next sentence marked by `.` or `!` or `?`
+` ) `             - moves to the end of the next sentence marked by `.` or `!` or `?`.
 
-` {} `            - naviagates between paragraphs
+` {} `            - naviagates between paragraphs.
 
 
 ## Regular Expressions
 
-`/tra` 		  - searches for text containing 'tra'
+`/tra` 		  - searches for text containing 'tra'.
 
 ## Screen Movement
 
-`shift + g`      - moves to the end of file
+`shift + g`      - moves to the end of file.
 
-`gg`		 - moves to the beginning of the file
+`gg`		 - moves to the beginning of the file.
 
-`ctrl + f` 	 - move forward one full screen
+`ctrl + f` 	 - move forward one full screen.
 
-`ctrl + b`	 - moves backward one page
+`ctrl + b`	 - moves backward one page.
 
-`:8` 		 - jumps to line 8
+`:8` 		 - jumps to line 8.
 
-`7 shift+g`	 - jumps to line 7
+`7 shift+g`	 - jumps to line 7.
 
-`$` 		 - moves to the end of line
+`$` 		 - moves to the end of line.
 
 `0`		 - moves to the beginning of the line
 
@@ -137,6 +137,27 @@
 `:b <filename>`	      - moves to specific buffer
 
 `:b 2`		      - switching to buffer by number
+
+`:r license.txt`      - reads file texts, and places it into the current one
+
+`:e!`		      - resets file to saved copy.
+
+
+## VIM Configurations
+
+* Language of `.vimrc` file is called vim script
+* Comments start with double quotes `" show line numbers`
+
+`.vimrc`	     - vim runtime configurations
+
+`:noremap <SPACE> <C-F>`  - remaps space key to page down key for switching through pages
+
+`:noremap <TAB> )` 	  - remaps the `tab` key to the `)` key for moving to the end of the sentence.
+
+
+* Using `_ys` in text and then `<space`> will auto complete the abbreviation
+
+``:abb _ys *youngstar*: ``  - abbreviates `_ys` to `youngstar`
 
 
 
