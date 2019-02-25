@@ -154,12 +154,7 @@
 
 `:noremap <TAB> )` 	  	- remaps the `tab` key to the `)` key for moving to the end of the sentence.
 
-
-* Using `_ys` in text and then `<space`> will auto complete the abbreviation
-
-``:abb _ys *youngstar*: ``  	- abbreviates `_ys` to `youngstar`
-
-`:abb cs csparksnj@gmail.com:`  - changes `cs` + `<space>` to csparksnj@gmail.com
+`:abb email email@gmail.com:`  - changes `email` + `<space>` to csparksnj@gmail.com
 
 
 
