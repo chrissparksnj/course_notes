@@ -148,16 +148,18 @@
 * Language of `.vimrc` file is called vim script
 * Comments start with double quotes `" show line numbers`
 
-`.vimrc`	     - vim runtime configurations
+`.vimrc`	     		- vim runtime configurations
 
-`:noremap <SPACE> <C-F>`  - remaps space key to page down key for switching through pages
+`:noremap <SPACE> <C-F>`  	- remaps space key to page down key for switching through pages
 
-`:noremap <TAB> )` 	  - remaps the `tab` key to the `)` key for moving to the end of the sentence.
+`:noremap <TAB> )` 	  	- remaps the `tab` key to the `)` key for moving to the end of the sentence.
 
 
 * Using `_ys` in text and then `<space`> will auto complete the abbreviation
 
-``:abb _ys *youngstar*: ``  - abbreviates `_ys` to `youngstar`
+``:abb _ys *youngstar*: ``  	- abbreviates `_ys` to `youngstar`
+
+`:abb cs csparksnj@gmail.com:`  - changes `cs` + `<space>` to csparksnj@gmail.com
 
 
 
