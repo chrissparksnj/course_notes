@@ -148,14 +148,23 @@
 * Language of `.vimrc` file is called vim script
 * Comments start with double quotes `" show line numbers`
 
-`.vimrc`	     		- vim runtime configurations
+`.vimrc`	     	       - vim runtime configurations
 
-`:noremap <SPACE> <C-F>`  	- remaps space key to page down key for switching through pages
+`:noremap <SPACE> <C-F>`       - remaps space key to page down key for switching through pages
 
-`:noremap <TAB> )` 	  	- remaps the `tab` key to the `)` key for moving to the end of the sentence.
+`:noremap <TAB> )` 	       - remaps the `tab` key to the `)` key for moving to the end of the sentence.
 
 `:abb email email@gmail.com:`  - changes `email` + `<space>` to `email@gmail.com`
 
+`:! ls`			       - runs the ls command from inside vim
+
+`:com! Py !python %`	       - makes a custom command that runs python with a parameter of `%` where `%` is the name of the current file.
+
+`:com! Wc !wc %`	       - maps Wordcount command to Wc, creating a custom command
+
+`:syntax on`		       - turns syntax highlighting on
+
+`:colorscheme delek`	       - changes current color scheme
 
 
 
