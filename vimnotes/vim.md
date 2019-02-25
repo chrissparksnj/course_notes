@@ -154,7 +154,7 @@
 
 `:noremap <TAB> )` 	  	- remaps the `tab` key to the `)` key for moving to the end of the sentence.
 
-`:abb email email@gmail.com:`  - changes `email` + `<space>` to csparksnj@gmail.com
+`:abb email email@gmail.com:`  - changes `email` + `<space>` to `email@gmail.com`
 
 
 
