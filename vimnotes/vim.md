@@ -166,5 +166,34 @@
 
 `:colorscheme delek`	       - changes current color scheme
 
+### Day To Day Vim
+
+`vim hello.go +8`	       - opens hello.go to line 8
+
+`vim sherlock.txt +/Kramm`     - opens sherlock.txt and uses regex for `Kramm`
+
+`vim +1,2d +wq conway.txt`     - deletes line one and two from `conway.txt`
+
+`vim -d road1.txt road2.txt`   - opens two files in 'diff' mode
+
+`do` *in diff mode*	       - copies one line to the next
+
+`:diffsplit road2.txt`	       - opens diff mode in current buffer
+
+`:vert diffsplit road2.txt`    - vertical different split
+
+`:se dip+=vertical`	       - sets default split direction
+
+`vim weather.zip`	       - opens zip directory
+
+`gf`			       - stands for "go to file". run this on filename in buffer to open file.
+
+`light.txt:2 gf`	       - opens file under cursor to the second line.
+
+`:!date`		       - runs 'date' command in vim
+
+`:r !ls`		       - puts output of `ls` command into current vim buffer
+
+`:%! jq .`		       - runs the current file through the `jq` program
 
 
