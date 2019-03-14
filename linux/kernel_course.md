@@ -49,4 +49,20 @@
 
 * `sysfs` is mounted on `/sys` at boot
 
+## Chapter 1 Quiz
+`uname -r` - get linux kernel version
+
+`ls -l /boot/vmlinuz*` - get kernel size
+
+`head /proc/meminfo` - find out amount of RAM
+
+`strace -c date` - count amount of syscalls a given process has
+
+
+
+
+
+
+
+
 
