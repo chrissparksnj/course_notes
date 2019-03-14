@@ -50,5 +50,15 @@
 * `sysfs` is mounted on `/sys` at boot
 
 
+## GRUB Booting
 
+* edit files in `/etc/grub.d` in order to make new grub entry.
+* `40_custom` file is the file usually edited to make new entry.
+* run `grub2-mkconfig` in order to generate your new config file.
+* you can interupt grub for editing by hitting the down key on boot.
+* grub kernel parameter information found in `/Documentation/kernel-parameters.txt`
 
+`grub.conf` - was *grub 1* configuration file
+`/etc/grub.d` - new configuration file location for *grub 2*
+`/etc/default/grub` - the initial information loaded by grub
+`cat /proc/cmdline` - see options grub used to boot with
