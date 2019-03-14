@@ -59,8 +59,18 @@
 `strace -c date` - count amount of syscalls a given process has
 
 
+### Seeing how many files a process has open
 
+`sleep 100 &` - make a job and put it in background. should return a number like `[1] 16000`
 
+`ls -l /proc/1600/fd` - shows the file descriptors that the process has open
+
+* Returns data like this
+```
+lrwx------ 1 dinner dinner 64 Mar 14 05:24 0 -> /dev/pts/0
+lrwx------ 1 dinner dinner 64 Mar 14 05:24 1 -> /dev/pts/0
+lrwx------ 1 dinner dinner 64 Mar 14 05:24 2 -> /dev/pts/0
+```
 
 
 
