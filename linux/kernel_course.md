@@ -69,3 +69,22 @@
 `/etc/default/grub` - the initial information loaded by grub
 
 `cat /proc/cmdline` - see options grub used to boot with
+
+
+### initramfs
+* A  `gzipped` `CPIO` archive that lives under `/boot`
+
+* booting with `rdinit=/bin/bash` will make sure `init` program doesn't run.
+
+### Inspecting `initramfs`
+`mkdir /tmp/myinit` - make empty directory.
+
+`sudo cp /boot/initrd.img-4.4.0-141-generic /tmp/myinit/i.gz` - copy initrd file to and rename to `i.gz`
+
+`gunzip i.gz` - unzip archive
+
+ `cpio -i --no-absolute-filenames < i ` - unwraps `initrd` and makes sure not to overwrite with `--no-absolute-filenames`
+ 
+ `ls -l` - shows filesystem that expands in `RAM` and mounted to hardrive
+ 
+ 
