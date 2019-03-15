@@ -32,6 +32,28 @@ lrwx------ 1 dinner dinner 64 Mar 14 05:24 2 -> /dev/pts/0
 `dmesg | grep -i command` - shows boot message from RAM buffer
 `grep -r "Command line" /var/log/*` - recursive `grep` run on all files in /var/log to search for boot message.
 
+# Chapter 2 quiz
+
+### Making a custom grub entry
+
+`cd /etc/grub.d` - change directory into grub default dir
+
+`view /boot/grub/grub.cfg` - see full grub file *ubuntu location*
+
+`vim /tmp/newentry.txt` - make a custom new entry text file. copy a template/example from `/boot/grub/grub.cfg` file.
+
+`cp /tmp/newentry.txt /etc/grub.d/40_custom` - replace `40_costom` with `newentry.txt`
+
+`grub-mkconfig -o /boot/grub/grub.cfg` - generate new grub file and output it to default `grub` configuration file.
+
+### Make custom boot entry in UBUNTU
+`vim /boot/grub/menu.lst` - open menu list
+
+
+
+
+
+
 
 
 
