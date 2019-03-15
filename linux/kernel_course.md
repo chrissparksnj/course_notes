@@ -87,4 +87,24 @@
  
  `ls -l` - shows filesystem that expands in `RAM` and mounted to hardrive
  
+## Loadable Kernel Modules
+
+* An object file with a `.ko` suffix.
+* Dynamically adds functionality to the running kernel.
+* Should be written in C and compiled for a particular kernel version.
+
+* Modules install in `/lib/modules`
+* Module files could be anywhere on system, but `modprobe.d` looks under `/lib/modules/`
+
+`lsmod` - lists modules loaded chronologically.
+
+`rmmod` - removes module.
+
+`rmmod -f` - force removes module.
+
+`modinfo` - metadata (info, parameters, aliases) about modules.
+
+`make -C /lib/modules/$(uname -r)/build M=$PWD modules` - compiles a module.
+
+
  
