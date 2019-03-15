@@ -60,7 +60,28 @@ GRUB_CMDLINE_LINUX=""
 GRUB_BACKGROUND="/home/t/Downloads/cow.jpg"
 ```
 
+* add the following to `/etc/grub.d/40_custom` and run `sudo update-grub` to update `grub menu`.
+```
+menuentry 'CUSTOMBOOTMENU' --class ubuntu --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-79db7e60-6313-44b5-98b0-74a56db1c269' {
+        recordfail
+        load_video
+        gfxmode $linux_gfx_mode
+        insmod gzio
+        if [ x$grub_platform = xxen ]; then insmod xzio; insmod lzopio; fi
+        insmod part_gpt
+        insmod ext2
+        set root='hd0,gpt2'
+        if [ x$feature_platform_search_hint = xy ]; then
+          search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt2 --hint-efi=hd0,gpt2 --hint-baremetal=ahci0,gpt2  79db7e60-6313-44b5-98b0-74a56db1c269
+        else
+          search --no-floppy --fs-uuid --set=root 79db7e60-6313-44b5-98b0-74a56db1c269
+        fi
+        linux   /boot/vmlinuz-4.18.0-16-generic root=UUID=79db7e60-6313-44b5-98b0-74a56db1c269 ro  quiet splash initcall_debug $vt_handoff
+        initrd  /boot/initrd.img-4.18.0-16-generic
+}
 
+
+```
 
 
 
