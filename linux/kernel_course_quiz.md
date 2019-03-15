@@ -47,10 +47,18 @@ lrwx------ 1 dinner dinner 64 Mar 14 05:24 2 -> /dev/pts/0
 `grub-mkconfig -o /boot/grub/grub.cfg` - generate new grub file and output it to default `grub` configuration file.
 
 ### Make custom boot entry in UBUNTU
-`vim /boot/grub/menu.lst` - open menu list
+`vim /etc/default/grub` - edit default grub options to show boot-menu
 
-
-
+`info -f grub -n 'Simple configuration'` - for default grub docs and options.
+```
+GRUB_DEFAULT=0
+#GRUB_TIMEOUT_STYLE=hidden
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+GRUB_CMDLINE_LINUX=""
+GRUB_BACKGROUND="/home/t/Downloads/cow.jpg"
+```
 
 
 
