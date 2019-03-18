@@ -57,5 +57,43 @@
 `docker run -ti my-image` - runs newly created commited docker image.
 
 `docker commit <container-name> my-image-2` - short hand for docker commit.
+### Average docker flow.
+
+`docker images` - pulls a list of docker images you can run.
+
+`docker run -ti kalilinux/kali-linux-docker bash` - makes a **container** from image. drops you in a shell.
+
+`touch text.txt` - alter the current container.
+
+`exit` - exit the current container.
+
+`docker ps -l` - shows the last exited docker.
+
+```
+CONTAINER ID        IMAGE                         COMMAND   NAMES
+527e028718b7        kalilinux/kali-linux-docker   "bash"   hungry_chaum
+```
+
+`docker commit 527e028718b7` - commit the new container to an image.
+* returns a hash: `sha256:fa1c06b45e3cb253d0e0132af5b54b8e95ca5964eaaf33fb9389587d2b7a7605`.
+
+`docker tag fa1c06b45e3cb253d0e0132af5b54b8e95ca5964eaaf33fb9389587d2b7a7605 my-new-image` - tags new image for easy access.
+
+`docker run -ti my-new-image` - runs your new image.
+
+`docker commit my-new-image my-new-image-2` - makes a new commit of your modified docker image.
+
+
+### Running process in docker container
+* containers have a main process.
+* container stops when that process stops.
+
+`docker run --rm -ti mykali sleep 5` - starts container, sleeps, and exits.
+* `--rm - delete container when finished with process.
+
+`docker run -ti my-image bash -c "sleep 3; echo all done"`
+* runs two commands within in docker container.
+
+`docker run -d -ti my-image bash` - `-d` starts container and leaves it running in background.
 
 
