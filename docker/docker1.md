@@ -41,11 +41,15 @@
 * NAME: randomly generated if not specified.
 
 `docker ps -a` - shows all docker commands.
+
 `docker ps -l` - shows the last exited docker command.
 
 `docker commit <containerid>` - commit container.
+
 `docker tag <sha256> my-image` - renames new docker image.
+
 `docker run -ti my-image` - runs newly created commited docker image.
+
 `docker commit <container-name> my-image-2` - short hand for docker commit.
 
 
