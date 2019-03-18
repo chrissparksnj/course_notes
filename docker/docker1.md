@@ -26,14 +26,20 @@
 # The Docker Flow
 ### images to containers
 `docker pull debian` - downloads docker images.
+
 `docker pull kalilinux/kali-linux-docker` - download kali linux docker.
+
 `docker images` find your docker image.
+
 `docker run -ti kalilinux/kali-linux-docker bash`
     *ti - terminal interactive: full terminal within image.
     *kalilinux/kali-linux-docker - shell you want to run.
     *bash - run bash shell within your image.
+
 `cat /etc/lsb-release` - see which docker image your running.
+
 `exit` or `cntrl d` - exits docker image.
+
 `docker ps` - look at docker's running images.
 * ID: container id number (not image id)
 * IMAGE: what image is running
