@@ -96,4 +96,21 @@ CONTAINER ID        IMAGE                         COMMAND   NAMES
 
 `docker run -d -ti my-image bash` - `-d` starts container and leaves it running in background.
 
+`docker attach <name-of-container>` - attaches to a detached container.
+
+`cntrl+p cntrl+q` - exits you out of container, but leaves it running.
+
+`docker exec -ti <name-of-container> bash` - start a new process on a already running container.
+
+`docker run --name crash-example -d my-new-image bash -c 'lose /etc/password' - cause container to crash *on purpose*.
+
+`docker logs crash-example` - look at error logs of failed container.
+
+`docker kill container-name` - kills running container.
+
+`docker rm container-name` - totally removes container.
+
+
+
+
 
