@@ -8,6 +8,12 @@
      // null - the objects properties.
 
 ```
+* h1: type of element we wish to create
+* 'Baked Salmon' - the elements children
+* null - the objects properties.
+
+
+
 *  Attributes are passed into the props argument. 
 ```
      var list = React.createElement("ul", {"id":"example"}, 
