@@ -62,4 +62,37 @@
 ```
 
 
+### Using `.map()` with `createClass()`
+
+```js
+const items_list = ['1 cup of nuts', '2 cups of butter', '3 bags of popcorn']
+
+const IngList2 = React.createClass({
+        displayName: "ingredientsList",
+            render(){
+                return React.createElement("ul", {className:"ingredients"}, 
+                this.props.items_list.map((ing,i) => React.createElement("li", { key:i }, ing))
+            )
+        }})
+        
+
+ReactDOM.render(React.createElement(IngList2, {items_list}, null), document.getElementById("react-container"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
