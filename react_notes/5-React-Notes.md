@@ -10,7 +10,7 @@
 
 
 ### Attributes are passed into the props argument. 
-```
+```js
      var list = React.createElement("ul", {"id":"example"}, 
                 React.createElement("li", null, "Facebook"),
                 React.createElement("li", null, "Twittter"),
@@ -44,7 +44,7 @@
     * initially, this was the only way to create a component.
     * components allow to build reusable UI items with dynamic data.
 
-```
+```js
     const IngList = React.createClass({
 	    displayName:"IngList",
         render(){
@@ -62,7 +62,7 @@
 ```
 
 
-### Using `.map()` with `createClass()`
+### Using `.map()` with `.createClass()`
 
 ```js
 const items_list = ['1 cup of nuts', '2 cups of butter', '3 bags of popcorn']
