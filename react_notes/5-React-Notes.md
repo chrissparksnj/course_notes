@@ -2,11 +2,6 @@
 *  React elements are a description for the DOM, and how it should look like.
 ```js
      var dish = React.createElement("h1", null, "Baked Salmon")
-
-     // h1: type of element we wish to create
-     // 'Baked Salmon' - the elements children
-     // null - the objects properties.
-
 ```
 * h1: type of element we wish to create
 * 'Baked Salmon' - the elements children
@@ -14,7 +9,7 @@
 
 
 
-*  Attributes are passed into the props argument. 
+> Attributes are passed into the props argument. 
 ```
      var list = React.createElement("ul", {"id":"example"}, 
                 React.createElement("li", null, "Facebook"),
@@ -30,7 +25,7 @@
                  React.createElement("li", null, "2 cups Butter Lettuce")
                  ))
 ```
-* pass in a list and use map to make reusable compenents.  
+> pass in a list and use map to make reusable compenents.  
 ```js
      var items = [
         "1 cup of cheese",
@@ -45,7 +40,7 @@
 ```
 
 
-* `React.createClass()`
+> `React.createClass()`
     * initially, this was the only way to create a component.
     * components allow to build reusable UI items with dynamic data.
 
