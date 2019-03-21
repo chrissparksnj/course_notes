@@ -110,6 +110,27 @@ CONTAINER ID        IMAGE                         COMMAND   NAMES
 
 `docker rm container-name` - totally removes container.
 
+### Networking with Docker
+
+* Programs in containers are isolated from the internet by default.
+* You can group containers into private networks.
+* You explicity choose who can connect to whom.
+* "Exposing ports" and "Linking containers"
+
+`docker run --rm -ti -p 45678:45678 -p 45679:45679 --name echo-server my-image-name`
+* port 45678 on computer forwards to port 45678 inside of container
+* traffic arriving on your host at port 45678 will forward to container at port 45678
+* in container, run `nc -lp 45678 | nc -lp 45679`. 
+    * anything that gets thrown to 45678 will be forwarded to 45679.
+    
+* On local machine - `nc localhost 45678` and in another terminal `nc localhost 45679`
+* no netcat? use a docker container that has netcat installed.
+* `docker -ti --rm ubuntu:14.04 bash`
+* look up ip address of localhost: `10.0.1.1`
+* `nc 10.0.0.1 45678` - run from the docker image to connect to your host.
+
+`docker port container-name` - shows open ports on a container. 
+
 
 
 
