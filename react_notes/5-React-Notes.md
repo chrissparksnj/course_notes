@@ -111,14 +111,74 @@ ReactDOM.render(
 )
 ```
 
+## Stateless functional components.
+* they are functions, not objects, so they ***dont*** have a `this` scope.
+* the default method of creating components. 
+* when stateless functional components aren't enough, fall back on `React.createClass()`
+* *stateless functional components* are functions that take in properties and return a DOM.
+* *SFC* should take in props, and return DOM.
+
+#### This is a regular function.
+```js
+const items = ["1 cup of nuts", "2 cups of butter", "3 bags of popcorn"]
+
+const IngredientsList = props =>
+	React.createElement(
+		"ul",
+		{className:"ingredients"},
+		props.items.map((ing,i) => React.createElement("li", {key:i}, ing))
+	)
+ReactDOM.render(
+	React.createElement(IngredientsList, {items}, null),
+	document.getElementById("react-container")
+)
+
+``` 
+
+#### Using object destructuring to avoid using repetitive dot notaion. `this.props.items`
+* stateless functional components are *faster* than createClass or ES6 class syntax.
+```js
+	const IngredientsList = ({items}) =>
+		React.createElement("ul", {className:"ingredients"},
+			items.map((ing, i) = React.createElement("li", {key:i}, ing)
+		))
+
+	ReactDOM.render(
+			React.createElement(IngredientsList, {items}, null), 
+			document.getElementById("react-container")
+			)
+```
+
+### Factories
+* Factories are used for common HTML and SVG elements.
+* Are a alternative to `React.createElement()`.
+
+```js
+// null = props, "Baked Salmon" = children
+React.DOM.h1(null, "Baked Salmon")` - creates a heading element.
 
 
+//using a DOM factory to create a unordered list.
+React.DOM.ul(
+	{"className":"ingredients"}, 
+	React.DOM.li(null, "1lb Salmon"),
+	React.DOM.li(null, "1 cup Pine Nuts"),
+	React.DOM.li(null, "2 cups Lettuce")
+)
 
+//using .map() with factories.
 
+var items =  ['item1', 'item2', 'item3']
 
+var list = React.DOM.ul(
+		{className:"ingredients"},
+		items.map((ing,key) => React.DOM.li({key}, ing)
+	)
+)
 
+ReactDOM.render(list, document.getElementById("react-container"))
 
-
+```
 
 
 
