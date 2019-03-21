@@ -80,7 +80,26 @@ ReactDOM.render(React.createElement(IngList2, {items_list}, null), document.getE
 ```
 
 
+### Using `React.createclass()` as an object and adding a custom function.
+* the function `renderListItem()` creates a li item foreach element in the `ingredients` array.
 
+```
+const items = ['1 cup of nuts', '2 cups of butter', '3 bags of popcorn']
+
+const Ingredients = React.createClass({
+	displayName:"ingredients",
+	renderListItem(ing, i){
+		return React.createElement("li", {key:i}, ing)
+	},
+	render(){
+		return React.createElement("ul", {className:"ingredients"}, this.props.items.map(this.renderListItem))
+	}
+
+
+})
+
+ReactDOM.render(React.createElement(Ingredients, {items}, null), document.getElementById('react-container'))
+```
 
 
 
