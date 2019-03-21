@@ -153,7 +153,7 @@ ReactDOM.render(
 
 ```js
 // null = props, "Baked Salmon" = children
-React.DOM.h1(null, "Baked Salmon")` // creates a heading element.
+React.DOM.h1(null, "Baked Salmon") // creates a heading element.
 
 
 // using a DOM factory to create a unordered list.
