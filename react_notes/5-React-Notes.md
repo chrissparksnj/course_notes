@@ -67,14 +67,15 @@ ReactDOM.render(list, document.getElementById('root'))
 const items_list = ['1 cup of nuts', '2 cups of butter', '3 bags of popcorn']
 
 const IngList2 = React.createClass({
-        displayName: "ingredientsList",
-            render(){
-                return React.createElement("ul", {className:"ingredients"}, 
-                this.props.items_list.map((ing,i) => React.createElement("li", { key:i }, ing))
-            )
-        }})
-        
-
+    displayName: "ingredientsList",
+    render(){
+	return React.createElement("ul", {className:"ingredients"}, 
+	this.props.items_list.map((ing,i) => React.createElement("li", { key:i }, ing))
+       )
+      }
+     }
+    )
+ 
 ReactDOM.render(
 	React.createElement(IngList2, {items_list}, null), 
 	document.getElementById("react-container")
@@ -89,20 +90,18 @@ ReactDOM.render(
 const items = ['1 cup of nuts', '2 cups of butter', '3 bags of popcorn']
 
 const Ingredients = React.createClass({
-	displayName:"ingredients",
-	renderListItem(ing, i){
-		return React.createElement("li", {key:i}, ing)
-	},
-	render(){
-		return React.createElement(
-			"ul", 
-			{className:"ingredients"}, 
-			this.props.items.map(this.renderListItem)
-		)
+    displayName:"ingredients",
+    renderListItem(ing, i){
+	return React.createElement("li", {key:i}, ing)
+    },
+    render(){
+        return React.createElement(
+	    "ul", 
+	    {className:"ingredients"}, 
+	    this.props.items.map(this.renderListItem)
+	  )
 	}
-
-
-})
+    })
 
 ReactDOM.render(
 	React.createElement(Ingredients, {items}, null), 
@@ -122,14 +121,14 @@ ReactDOM.render(
 const items = ["1 cup of nuts", "2 cups of butter", "3 bags of popcorn"]
 
 const IngredientsList = props =>
-	React.createElement(
-		"ul",
-		{className:"ingredients"},
-		props.items.map((ing,i) => React.createElement("li", {key:i}, ing))
-	)
+    React.createElement(
+        "ul",
+        {className:"ingredients"},
+        props.items.map((ing,i) => React.createElement("li", {key:i}, ing))
+    )
 ReactDOM.render(
-	React.createElement(IngredientsList, {items}, null),
-	document.getElementById("react-container")
+    React.createElement(IngredientsList, {items}, null),
+    document.getElementById("react-container")
 )
 
 ``` 
@@ -137,15 +136,15 @@ ReactDOM.render(
 #### Using object destructuring to avoid using repetitive dot notaion. `this.props.items`
 * stateless functional components are *faster* than createClass or ES6 class syntax.
 ```js
-	const IngredientsList = ({items}) =>
-		React.createElement("ul", {className:"ingredients"},
-			items.map((ing, i) = React.createElement("li", {key:i}, ing)
-		))
+const IngredientsList = ({items}) =>
+    React.createElement("ul", {className:"ingredients"},
+        items.map((ing, i) = React.createElement("li", {key:i}, ing)
+    ))
 
-	ReactDOM.render(
-			React.createElement(IngredientsList, {items}, null), 
-			document.getElementById("react-container")
-			)
+ReactDOM.render(
+    React.createElement(IngredientsList, {items}, null), 
+    document.getElementById("react-container")
+)
 ```
 
 ### Factories
