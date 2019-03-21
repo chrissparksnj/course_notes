@@ -95,7 +95,11 @@ const Ingredients = React.createClass({
 		return React.createElement("li", {key:i}, ing)
 	},
 	render(){
-		return React.createElement("ul", {className:"ingredients"}, this.props.items.map(this.renderListItem))
+		return React.createElement(
+			"ul", 
+			{className:"ingredients"}, 
+			this.props.items.map(this.renderListItem)
+		)
 	}
 
 
